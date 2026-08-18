@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "6.0.0",
+  "levels": [
+    "Kana",
+    "N5",
+    "N4",
+    "N3",
+    "N2",
+    "N1"
+  ],
+  "modules": [
+    {
+      "id": "kana",
+      "file": "kana.json",
+      "type": "kana"
+    },
+    {
+      "id": "vocabulary",
+      "file": "vocabulary.json",
+      "type": "vocabulary"
+    },
+    {
+      "id": "grammar",
+      "file": "grammar.json",
+      "type": "grammar"
+    },
+    {
+      "id": "kanji",
+      "file": "kanji.json",
+      "type": "kanji"
+    },
+    {
+      "id": "verbs",
+      "file": "verbs.json",
+      "type": "reference"
+    },
+    {
+      "id": "counters",
+      "file": "counters.json",
+      "type": "reference"
+    },
+    {
+      "id": "confusions",
+      "file": "confusions.json",
+      "type": "practice"
+    }
+  ],
+  "notes": "N4 extensively integrated: vocabulary, kanji, grammar cards and 35 lessons."
+}

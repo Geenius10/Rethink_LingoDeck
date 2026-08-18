@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171717">
+<meta name="description" content="Minimalistische Japanisch-Lernapp mit Karteikarten, Spaced Repetition, Kana, Kanji, Grammatik, Hören und Schreiben.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Nihongo Cards">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="assets/styles.css">
+<title>Nihongo Cards</title>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div><div class="brand">Nihongo Cards</div><div class="sub" id="date"></div></div>
+    <button class="icon" id="settingsBtn" aria-label="Einstellungen">⚙︎</button>
+  </div>
+
+  <section id="home" class="section active">
+    <div class="hero">
+      <div class="sub muted">Heute</div>
+      <h1 id="heroTitle"></h1>
+      <p class="muted" id="heroText"></p>
+      <div class="progress" style="background:#383838;margin:14px 0 10px"><i id="daybar" style="background:#fff"></i></div>
+      <div class="flex space"><span class="sub muted" id="goalText"></span><button class="primary" id="startBtn" style="background:#fff;color:#171717">Lernen</button></div>
+    </div>
+    <button class="ghost full install" id="installBtn">App installieren</button>
+
+    <div class="grid2" style="margin-top:10px">
+      <div class="stat"><strong id="due">0</strong><span class="muted">fällig</span></div>
+      <div class="stat"><strong id="fresh">0</strong><span class="muted">neu</span></div>
+      <div class="stat"><strong id="streak">0</strong><span class="muted">Tage Streak</span></div>
+      <div class="stat"><strong id="learned">0</strong><span class="muted">gelernt</span></div>
+    </div>
+
+    <h2>Lernpfad</h2>
+    <div id="miniPath"></div>
+
+    <div class="panel">
+      <b>Schwächen-Fokus</b>
+      <p class="muted" id="weaknessText" style="margin-bottom:0">Noch keine Daten. Nach den ersten Wiederholungen priorisiert die App unsichere Karten automatisch.</p>
+    </div>
+  </section>
+
+  <section id="learn" class="section">
+    <h1>Lernen</h1>
+    <div class="chips" id="modes"></div>
+    <div class="levels" id="levels"></div>
+
+    <div id="flashMode">
+      <div class="flashwrap"><div class="flash" id="flashcard">
+        <div class="face"><div class="sub" id="meta1"></div><div class="jp" id="front"></div><button class="secondary" id="speak" style="margin-top:20px">🔊 Anhören</button><div class="hint">Tippen zum Umdrehen</div></div>
+        <div class="face back"><div class="sub" id="meta2"></div><div class="jp" id="backjp"></div><div class="reading" id="reading"></div><div class="meaning" id="meaning"></div><div class="example" id="example"></div><div class="example" id="exampleDe"></div><div class="hint">Wie sicher warst du?</div></div>
+      </div></div>
+      <div class="answers" id="answers" style="display:none">
+        <button class="answer again" data-g="again">Nochmal</button><button class="answer hard" data-g="hard">Schwer</button><button class="answer good" data-g="good">Gut</button><button class="answer easy" data-g="easy">Leicht</button>
+      </div>
+      <button class="ghost full" id="showAnswer" style="margin-top:10px">Antwort zeigen</button>
+      <div class="sub" id="counter" style="text-align:center;margin-top:8px"></div>
+    </div>
+
+    <div id="quizMode" style="display:none"><div class="exercise"><div class="sub" id="quizMeta"></div><div class="jp" id="quizPrompt" style="margin-top:15px"></div><div class="choices" id="quizChoices"></div></div></div>
+    <div id="listenMode" style="display:none"><div class="exercise"><div class="sub">Hörtraining</div><button class="primary" id="playListen" style="margin-top:18px">🔊 Abspielen</button><div class="choices" id="listenChoices"></div></div></div>
+    <div id="writeMode" style="display:none"><div class="exercise"><div class="sub">Schreibtraining</div><div class="meaning" id="writeMeaning"></div><input id="writeInput" style="font-size:26px;text-align:center;margin-top:15px" placeholder="かな / 漢字"><button class="primary full" id="checkWrite" style="margin-top:10px">Prüfen</button><div class="example" id="writeFeedback"></div></div></div>
+    <div id="weakMode" style="display:none"><div class="exercise"><div class="sub">Schwächen-Training</div><div class="jp" id="weakPrompt"></div><div class="meaning" id="weakMeaning"></div><button class="secondary full" id="weakReveal" style="margin-top:12px">Lösung zeigen</button><div class="example" id="weakSolution"></div><button class="primary full" id="weakNext" style="margin-top:10px">Nächste Karte</button></div></div>
+  </section>
+
+  <section id="path" class="section">
+    <h1>Lernpfad</h1>
+    <p class="muted">Kana → Grundlagen → JLPT N5 bis N1. Die App filtert Lernkarten nach deinem gewählten Niveau.</p>
+    <div id="fullPath"></div>
+
+    
+    <h2>Grammatiklektionen</h2>
+    <div id="lessonList"></div>
+    <div id="lessonDetail"></div>
+
+    <h2>Zusatzmodule</h2>
+    <div class="toolcard"><div class="flex space"><div><b>Verbformen</b><div class="sub">Wörterbuchform, ます, Negation, Vergangenheit, て-Form, Potential</div></div><button class="secondary" id="verbsBtn">Öffnen</button></div></div>
+    <div class="toolcard"><div class="flex space"><div><b>Zahlen & Uhrzeit</b><div class="sub">1–10.000, Uhrzeiten, Minuten und Alter</div></div><button class="secondary" id="numbersBtn">Öffnen</button></div></div>
+    <div class="toolcard"><div class="flex space"><div><b>Zähler</b><div class="sub">人, 本, 枚, 匹, 台, 回, 冊, 個</div></div><button class="secondary" id="countersBtn">Öffnen</button></div></div>
+    <div class="toolcard"><div class="flex space"><div><b>Verwechslungs-Kana</b><div class="sub">Ähnliche Zeichen gezielt unterscheiden</div></div><button class="secondary" id="confusionsBtn">Öffnen</button></div></div>
+    <div id="toolContent"></div>
+  </section>
+
+  <section id="library" class="section">
+    <div class="flex space"><h1>Karten</h1><button class="icon" id="addBtn">＋</button></div>
+    <div class="flex"><select id="filter"><option value="all">Alle</option><option>Hiragana</option><option>Katakana</option><option>Vokabeln</option><option>Kanji</option><option>Grammatik</option><option>Eigene Karten</option></select><input id="search" placeholder="Suchen …"></div>
+    <div class="levels" id="libraryLevels"></div>
+    <div id="libraryList" style="margin-top:12px"></div>
+    <h2>Kana</h2>
+    <div class="chips" style="margin-bottom:10px"><button class="chip active" id="hira">Hiragana</button><button class="chip" id="kata">Katakana</button></div>
+    <div class="kana-grid" id="kanaGrid"></div>
+  </section>
+
+  <section id="progress" class="section">
+    <h1>Fortschritt</h1>
+    <div class="grid2">
+      <div class="stat"><strong id="reviews">0</strong><span class="muted">Wiederholungen</span></div>
+      <div class="stat"><strong id="accuracy">–</strong><span class="muted">Trefferquote</span></div>
+      <div class="stat"><strong id="mastered">0</strong><span class="muted">sicher</span></div>
+      <div class="stat"><strong id="pstreak">0</strong><span class="muted">Streak</span></div>
+    </div>
+    <div class="panel"><b>Nach Niveau</b><div id="levelProgress" style="margin-top:10px"></div></div>
+    <div class="panel"><b>Lernprinzip</b><p class="muted">Romaji nur als Starthilfe. Kana aktiv lesen, Wörter in Beispielsätzen lernen, Kanji mit Lesung verknüpfen und Hören sowie Schreiben separat trainieren.</p></div>
+  </section>
+
+  <section id="settings" class="section">
+    <h1>Einstellungen</h1>
+    <div class="panel">
+      <div class="settingsrow flex space"><div><b>Tagesziel</b><div class="sub">Karten pro Tag</div></div><select id="goal" style="width:110px"><option>10</option><option>15</option><option>20</option><option>30</option><option>40</option></select></div>
+      <div class="settingsrow flex space"><div><b>Neue Karten</b><div class="sub">Maximal pro Tag</div></div><select id="newLimit" style="width:110px"><option>5</option><option>10</option><option>15</option><option>20</option></select></div>
+      <div class="settingsrow flex space"><div><b>Romaji</b><div class="sub">Lesestütze anzeigen</div></div><div class="toggle" id="romajiToggle"><i></i></div></div>
+      <div class="settingsrow flex space"><div><b>Auto-Audio</b><div class="sub">Karte automatisch vorsprechen</div></div><div class="toggle" id="audioToggle"><i></i></div></div>
+
+      <div class="settingsrow">
+        <div><b>Darstellung</b><div class="sub">Hell oder dunkel</div></div>
+        <div class="theme-preview">
+          <button class="theme-card" id="themeLight"><div class="theme-dot light"></div>Hell</button>
+          <button class="theme-card" id="themeDark"><div class="theme-dot dark"></div>Dunkel</button>
+        </div>
+      </div>
+
+    </div>
+    <button class="ghost full" id="exportBtn" style="margin-top:12px">Lernstand exportieren</button>
+    <label class="ghost full" style="display:block;text-align:center;padding:13px;margin-top:8px;cursor:pointer">Lernstand importieren<input type="file" id="importInput" accept="application/json" style="display:none"></label>
+    <button class="ghost full" id="reset" style="margin-top:8px">Lernfortschritt zurücksetzen</button>
+  </section>
+
+  <section id="addCard" class="section">
+    <h1>Neue Karte</h1>
+    <div class="panel">
+      <div class="field"><label>Deck</label><select id="newDeck"><option>Eigene Karten</option><option>Vokabeln</option><option>Kanji</option><option>Grammatik</option></select></div>
+      <div class="field"><label>Niveau</label><select id="newLevel"><option>Eigene</option><option>N5</option><option>N4</option><option>N3</option><option>N2</option><option>N1</option></select></div>
+      <div class="field"><label>Japanisch</label><input id="newFront"></div>
+      <div class="field"><label>Lesung</label><input id="newReading"></div>
+      <div class="field"><label>Bedeutung</label><input id="newMeaning"></div>
+      <div class="field"><label>Beispielsatz</label><textarea id="newExample"></textarea></div>
+      <button class="primary full" id="saveCard">Speichern</button>
+      <button class="ghost full" id="cancelCard" style="margin-top:8px">Abbrechen</button>
+    </div>
+  </section>
+</div>
+
+<div class="nav"><div class="navin">
+  <button class="navbtn active" data-t="home"><b>⌂</b>Heute</button>
+  <button class="navbtn" data-t="learn"><b>◫</b>Lernen</button>
+  <button class="navbtn" data-t="path"><b>↗</b>Pfad</button>
+  <button class="navbtn" data-t="library"><b>▤</b>Karten</button>
+  <button class="navbtn" data-t="progress"><b>◔</b>Fortschritt</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script src="data/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
