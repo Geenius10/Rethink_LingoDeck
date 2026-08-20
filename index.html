@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f1f8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="RETHINK. LingoDeck">
+  <title>RETHINK. LingoDeck</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="appShell" class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-kicker">RETHINK.</div>
+        <h1 id="pageTitle">LingoDeck</h1>
+      </div>
+      <button id="themeToggle" class="icon-button theme-toggle" aria-label="Dark Mode umschalten">◐</button>
+    </header>
+
+    <main id="view"></main>
+
+    <nav class="tabbar" aria-label="Hauptnavigation">
+      <button class="tab active" data-route="home">
+        <span class="tab-icon icon-home" aria-hidden="true"></span>
+        <span>Start</span>
+      </button>
+      <button class="tab" data-route="cards">
+        <span class="tab-icon icon-cards" aria-hidden="true"></span>
+        <span>Karten</span>
+      </button>
+      <button class="tab" data-route="learn">
+        <span class="tab-icon icon-learn" aria-hidden="true"></span>
+        <span>Lernen</span>
+      </button>
+      <button class="tab" data-route="stats">
+        <span class="tab-icon icon-progress" aria-hidden="true"></span>
+        <span>Fortschritt</span>
+      </button>
+    </nav>
+  </div>
+
+  <dialog id="modal">
+    <form id="modalBody" class="modal-card"></form>
+  </dialog>
+
+  <input id="backupInput" type="file" accept="application/json,.json" hidden>
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
